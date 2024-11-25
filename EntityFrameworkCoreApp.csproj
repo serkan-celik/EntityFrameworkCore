@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AnnotationConvensions\AnnotationDbContext.cs" />
     <Compile Remove="AnnotationConvensions\FluentDbContext.cs" />
     <Compile Remove="DefaultConvensions\DefaultDbContext.cs" />
   </ItemGroup>

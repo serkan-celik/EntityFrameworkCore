@@ -16,6 +16,7 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
         public DbSet<SiparisDetay> SiparisDetaylari { get; set; }
         public DbSet<Musteri> Musteriler { get; set; }
         public DbSet<Kullanici> Kullanicilar { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=BTGM0306-703\\SQLEXPRESS; Database=EfTestDb; Integrated Security=True;  TrustServerCertificate=True");

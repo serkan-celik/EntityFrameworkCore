@@ -14,12 +14,12 @@ namespace EntityFrameworkCoreApp.FluentConvensions
     {
         public DbSet<Kategori> Kategoriler { get; set; }
         public DbSet<Urun> Urunler { get; set; }
-
         public DbSet<KategoriUrun> KategoriUrunleri { get; set; }
         public DbSet<Siparis> Siparisler { get; set; }
         public DbSet<SiparisDetay> SiparisDetaylari { get; set; }
         public DbSet<Musteri> Musteriler { get; set; }
         public DbSet<Kullanici> Kullanicilar { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=BTGM0306-703\\SQLEXPRESS; Database=EfTestDb; Integrated Security=True;  TrustServerCertificate=True");

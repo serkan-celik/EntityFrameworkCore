@@ -1,17 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityFrameworkCoreApp.DefaultConvensions
+namespace EntityFrameworkCoreApp.FluentConvensions
 {
-    public class FluentDbContext : DbContext
+    public class AnnotationDbContext : DbContext
     {
         public DbSet<Kategori> Kategoriler { get; set; }
         public DbSet<Urun> Urunler { get; set; }
+
+        public DbSet<KategoriUrun> KategoriUrunleri { get; set; }
         public DbSet<Siparis> Siparisler { get; set; }
         public DbSet<SiparisDetay> SiparisDetaylari { get; set; }
         public DbSet<Musteri> Musteriler { get; set; }
@@ -27,8 +31,9 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
     //Princible Table
     public class Musteri
     {
-        //Auto PrimaryKey
-        public int Id { get; set; }
+        [Key]
+        //Custom PrimaryKey
+        public int Musteri_Id { get; set; }
         public string Adi { get; set; }
         public string Soyadı { get; set; }
     }
@@ -36,12 +41,11 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
     //Dependent Table
     public class Kullanici
     {
-        //Auto PrimaryKey
+        [Key,ForeignKey(nameof(Musteri))]
         public int Id { get; set; }
-        //Shadow property automatic geneterated
-        //public int MusteriId { get; set; }
         public string Adi { get; set; }
         public string Sifre { get; set; }
+        //[ForeignKey("Id")] alternatif
         public Musteri Musteri { get; set; }
     }
 
@@ -51,22 +55,23 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
 
     public class Siparis
     {
-        //Auto PrimaryKey
+        [Key]
         public int Id { get; set; }
         public int KullaniciId { get; set; }
         public DateTime Tarih { get; set; }
         public double ToplamTutar { get; set; }
-        public ICollection<SiparisDetay> SiparisDetaylari { get; set; }//Opsiyonel
+        public ICollection<SiparisDetay> SiparisDetaylari { get; set; }// Opsiyonel
     }
     public class SiparisDetay
     {
-        //Id AutoKey
         public int Id { get; set; }
-        //Shadow property automatic geneterated
-        //public int SiparisId { get; set; }
+        public int Siparis_Id { get; set; }
+        public int Urun_Id { get; set; }
         public int Adet { get; set; }
         public int Tutar { get; set; }
+        [ForeignKey("Siparis_Id")]
         public Siparis Siparis { get; set; }
+        [ForeignKey("Urun_Id")]
         public Urun Urun { get; set; }
     }
 
@@ -77,23 +82,33 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
     //Princible Table
     public class Kategori
     {
-        //Auto PrimaryKey
+        [Key]
         public int Id { get; set; }
         public string Adi { get; set; }
-        public ICollection<Urun> Urunler { get; set; }
+        public ICollection<Urun> Urunler { get; set; }//Opsiyonel
     }
 
-    //KategoriUrun Dependent Table Automatic Generated
-
-    //Princible Table
-    public class Urun
+    public class KategoriUrun
     {
-        //Auto PrimaryKey
+        [Key]
+        public int Id { get; set; }
+        public int Kategori_Id { get; set; }
+        public int Urun_Id { get; set; }
+        [ForeignKey("Kategori_Id")]
+        public Kategori Kategori { get; set; }
+        [ForeignKey("Urun_Id")]
+        public Urun Urun { get; set; }
+    }
+
+        //Princible Table
+        public class Urun
+    {
+        [Key]
         public int Id { get; set; }
         public string Adi { get; set; }
         public double Fiyat { get; set; }
         public string Aciklama { get; set; }
-        public ICollection<Kategori> Kategoriler { get; set; }
+        public ICollection<Kategori> Kategoriler { get; set; }//Opsiyonel
     }
 
     #endregion

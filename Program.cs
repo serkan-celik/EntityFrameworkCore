@@ -15,56 +15,54 @@ namespace EntityFrameworkCore
         [Benchmark]
         static void Main(string[] args)
         {
-            var ctx = new EfDb();
-            //ctx.Kategoriler.AddRange(new Kategori { Adi = "a" }, new Kategori { Adi = "a1" },new Kategori { Adi = "a2" });
-            //ctx.SaveChanges();
-            //var kategoriler = ctx.Database.ExecuteSql($"");
+            //var ctx = new EfDb();
+            ////ctx.Kategoriler.AddRange(new Kategori { Adi = "a" }, new Kategori { Adi = "a1" },new Kategori { Adi = "a2" });
+            ////ctx.SaveChanges();
+            ////var kategoriler = ctx.Database.ExecuteSql($"");
 
-            ctx.Siparisler.Remove(new Siparis { Id = 6 });
-            ctx.SaveChanges();
+            //ctx.Siparisler.Remove(new Siparis { Id = 6 });
+            //ctx.SaveChanges();
 
             Console.WriteLine("işlem başarılı");
         }
     }
 
-    public class EfDb :DbContext
-    {
-        public DbSet<Kategori> Kategoriler { get; set; }
-        public DbSet<Urun> Urunler { get; set; }
-        public DbSet<Siparis> Siparisler { get; set; }
-        public DbSet<SiparisDetay> SiparisDetaylari { get; set; }
-        public DbSet<Kullanici> Kullanicilar { get; set; }
-        public DbSet<Personel> Personeller { get; set; }
-        public DbSet<Musteri> Musteriler { get; set; }
-        public DbSet<Kisi> Kisiler { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=BTGM0306-703\\SQLEXPRESS; Database=EfTestDb; Integrated Security=True;  TrustServerCertificate=True");
-        }
+    //public class EfDb :DbContext
+    //{
+    //    public DbSet<Kategori> Kategoriler { get; set; }
+    //    public DbSet<Urun> Urunler { get; set; }
+    //    public DbSet<Siparis> Siparisler { get; set; }
+    //    public DbSet<SiparisDetay> SiparisDetaylari { get; set; }
+    //    public DbSet<Kullanici> Kullanicilar { get; set; }
+    //    public DbSet<Personel> Personeller { get; set; }
+    //    public DbSet<Musteri> Musteriler { get; set; }
+    //    public DbSet<Kisi> Kisiler { get; set; }
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    {
+    //        optionsBuilder.UseSqlServer("Server=BTGM0306-703\\SQLEXPRESS; Database=EfTestDb; Integrated Security=True;  TrustServerCertificate=True");
+    //    }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<Kategori>()
-            //    .HasOne(k => k.UstKategori)
-            //    .WithMany(k => k.AltKategoriler);
-            //.HasForeignKey(k => k.UstKategoriId);
+    //    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //    {
+    //        //modelBuilder.Entity<Kategori>()
+    //        //    .HasOne(k => k.UstKategori)
+    //        //    .WithMany(k => k.AltKategoriler);
+    //        //.HasForeignKey(k => k.UstKategoriId);
 
-            //modelBuilder.Entity<KategoriUrun>().HasKey("KategoriId","UrunId");
-            //modelBuilder.Entity<KategoriUrun>().HasKey(k=>new { k.KategoriId, k.UrunId });
-            //modelBuilder.Entity<KategoriUrun>().ToTable("KategoriUrunleri");
+    //        //modelBuilder.Entity<KategoriUrun>().HasKey("KategoriId","UrunId");
+    //        //modelBuilder.Entity<KategoriUrun>().HasKey(k=>new { k.KategoriId, k.UrunId });
+    //        //modelBuilder.Entity<KategoriUrun>().ToTable("KategoriUrunleri");
 
-            modelBuilder.Entity<SiparisDetay>().HasIndex(sd => new {sd.SiparisId, sd.UrunId }).IsUnique();
-            modelBuilder.Entity<SiparisDetay>()
-                        .HasOne(sd => sd.Siparis)
-                        .WithMany(sd => sd.SiparisDetaylari)
-                        .OnDelete(DeleteBehavior.Cascade);
-        }
+    //        modelBuilder.Entity<SiparisDetay>().HasIndex(sd => new {sd.SiparisId, sd.UrunId }).IsUnique();
+    //        modelBuilder.Entity<SiparisDetay>()
+    //                    .HasOne(sd => sd.Siparis)
+    //                    .WithMany(sd => sd.SiparisDetaylari)
+    //                    .OnDelete(DeleteBehavior.Cascade);
+    //    }
 
 
-        public void Yap(T entitiy) { 
 
-        }
-    }
+    //}
 
     public class Kategori {
         public int Id { get; set; }

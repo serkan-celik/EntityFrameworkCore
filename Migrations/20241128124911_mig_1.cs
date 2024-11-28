@@ -30,7 +30,7 @@ namespace EntityFrameworkCoreApp.Migrations
                 {
                     Musteri_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Adi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Adi = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Soyadı = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -72,19 +72,43 @@ namespace EntityFrameworkCoreApp.Migrations
                 name: "Kullanicilar",
                 columns: table => new
                 {
-                    Kullanici_Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Adi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sifre = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kullanicilar", x => x.Kullanici_Id);
+                    table.PrimaryKey("PK_Kullanicilar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Kullanicilar_Musteriler_Kullanici_Id",
-                        column: x => x.Kullanici_Id,
+                        name: "FK_Kullanicilar_Musteriler_Id",
+                        column: x => x.Id,
                         principalTable: "Musteriler",
                         principalColumn: "Musteri_Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KategoriUrun",
+                columns: table => new
+                {
+                    KategorilerId = table.Column<int>(type: "int", nullable: false),
+                    UrunlerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KategoriUrun", x => new { x.KategorilerId, x.UrunlerId });
+                    table.ForeignKey(
+                        name: "FK_KategoriUrun_Kategoriler_KategorilerId",
+                        column: x => x.KategorilerId,
+                        principalTable: "Kategoriler",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_KategoriUrun_Urunler_UrunlerId",
+                        column: x => x.UrunlerId,
+                        principalTable: "Urunler",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,13 +128,13 @@ namespace EntityFrameworkCoreApp.Migrations
                         column: x => x.Kategori_Id,
                         principalTable: "Kategoriler",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_KategoriUrunleri_Urunler_Urun_Id",
                         column: x => x.Urun_Id,
                         principalTable: "Urunler",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,14 +156,19 @@ namespace EntityFrameworkCoreApp.Migrations
                         column: x => x.Siparis_Id,
                         principalTable: "Siparisler",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SiparisDetaylari_Urunler_Urun_Id",
                         column: x => x.Urun_Id,
                         principalTable: "Urunler",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KategoriUrun_UrunlerId",
+                table: "KategoriUrun",
+                column: "UrunlerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_KategoriUrunleri_Kategori_Id",
@@ -165,6 +194,9 @@ namespace EntityFrameworkCoreApp.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "KategoriUrun");
+
             migrationBuilder.DropTable(
                 name: "KategoriUrunleri");
 

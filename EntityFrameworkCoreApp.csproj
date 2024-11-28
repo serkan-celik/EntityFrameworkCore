@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AnnotationConvensions\AnnotationDbContext.cs" />
     <Compile Remove="AnnotationConvensions\FluentDbContext.cs" />
     <Compile Remove="DefaultConvensions\DefaultDbContext.cs" />
+    <Compile Remove="FluentConvensions\FluentDbContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AnnotationConvensions\" />
     <Folder Include="DefaultConvensions\" />
+    <Folder Include="FluentConvensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

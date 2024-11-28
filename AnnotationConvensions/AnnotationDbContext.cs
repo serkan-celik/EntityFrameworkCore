@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityFrameworkCoreApp.FluentConvensions
+namespace EntityFrameworkCoreApp.AnnotationConvensions
 {
     public class AnnotationDbContext : DbContext
     {
@@ -24,6 +24,13 @@ namespace EntityFrameworkCoreApp.FluentConvensions
         {
             optionsBuilder.UseSqlServer("Server=BTGM0306-703\\SQLEXPRESS; Database=EfTestDb; Integrated Security=True;  TrustServerCertificate=True");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Kategori>().Property<DateTime?>("CreatedDate");
+            modelBuilder.Entity<Kategori>().Property<DateTime?>("UpdatedDate");
+
+        }
     }
 
     #region One to One Relation
@@ -34,6 +41,8 @@ namespace EntityFrameworkCoreApp.FluentConvensions
         [Key]
         //Custom PrimaryKey
         public int Musteri_Id { get; set; }
+        [Required]
+        [StringLength(50,MinimumLength =3)]    
         public string Adi { get; set; }
         public string Soyadı { get; set; }
     }
@@ -85,6 +94,7 @@ namespace EntityFrameworkCoreApp.FluentConvensions
         [Key]
         public int Id { get; set; }
         public string Adi { get; set; }
+        public string Soyadi { get; set; }
         public ICollection<Urun> Urunler { get; set; }//Opsiyonel
     }
 

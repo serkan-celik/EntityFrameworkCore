@@ -1,30 +1,36 @@
-﻿using BenchmarkDotNet.Attributes;
-using Microsoft.EntityFrameworkCore;
+﻿
+using EntityFrameworkCoreApp.AnnotationConvensions;
+using Infrastructure.Data.DataAccess.Repositories.Concreate;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Common;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace EntityFrameworkCore
 {
     internal class Program
     {
-        [Benchmark]
         static void Main(string[] args)
         {
-            //var ctx = new EfDb();
+            //var ctx = new AnnotationDbContext();
             ////ctx.Kategoriler.AddRange(new Kategori { Adi = "a" }, new Kategori { Adi = "a1" },new Kategori { Adi = "a2" });
             ////ctx.SaveChanges();
             ////var kategoriler = ctx.Database.ExecuteSql($"");
 
             //ctx.Siparisler.Remove(new Siparis { Id = 6 });
-            //ctx.SaveChanges();
 
-            Console.WriteLine("işlem başarılı");
+            //var urun = new EntityFrameworkCoreApp.AnnotationConvensions.Kullanici { Adi = "" };
+
+            TestContext testContext = new TestContext();
+            testContext.UpdateById(4, p => p.Adi = "seko", p=> p.Soyadi = "çelikoo");
+            testContext.Save();
+            Console.WriteLine("işlem başarılı2");
         }
+    }
+
+    class TestContext : EntityFrameworkRepository<EntityFrameworkCoreApp.AnnotationConvensions.Kategori, int, AnnotationDbContext>
+    {
+
     }
 
     //public class EfDb :DbContext

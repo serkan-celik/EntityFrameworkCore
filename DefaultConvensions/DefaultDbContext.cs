@@ -28,7 +28,7 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
     //Princible Table
     public class Musteri
     {
-        //Auto PrimaryKey
+        //Auto PrimaryKey:Id:ID:MusteriId:MusteriID
         public int Id { get; set; }
         public string Adi { get; set; }
         public string Soyadı { get; set; }

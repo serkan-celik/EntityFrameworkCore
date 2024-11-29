@@ -1,10 +1,12 @@
 ﻿
 using EntityFrameworkCoreApp.AnnotationConvensions;
-using Infrastructure.Data.DataAccess.Repositories.Concreate;
+using Infrastructure.Data.DataAccess.Repositories;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Infrastructure.Extensions;
 
 namespace EntityFrameworkCore
 {
@@ -21,16 +23,29 @@ namespace EntityFrameworkCore
 
             //var urun = new EntityFrameworkCoreApp.AnnotationConvensions.Kullanici { Adi = "" };
 
-            TestContext testContext = new TestContext();
-            testContext.UpdateById(4, p => p.Adi = "seko", p=> p.Soyadi = "çelikoo");
-            testContext.Save();
-            Console.WriteLine("işlem başarılı2");
+            TestContext testContext = new TestContext(new AnnotationDbContext());
+            var a =testContext.GetById(1,3);
+            //testContext.UpdateById(4, p => p.Adi = "sekomm", p=> p.Soyadi = "çelikoo");
+
+            DateTime tarih = DateTime.Now;
+            var gunSonu = tarih.GetEndOfDay();
+            var yilSonu = tarih.GetEndOfYear();
+            var aySonu = tarih.GetEndOfMonth();
+            var saatSonu = tarih.GetEndOfHour();
+            var haftaSonu = tarih.GetEndOfWeek();
+
+            DateTime? tarih2 = DateTime.Now;
+            var haftaSonu2 = tarih2.GetEndOfDate();
+
+            Console.WriteLine("işlem başarılı");
         }
     }
 
-    class TestContext : EntityFrameworkRepository<EntityFrameworkCoreApp.AnnotationConvensions.Kategori, int, AnnotationDbContext>
+    class TestContext : EntityFrameworkCoreRepository<EntityFrameworkCoreApp.AnnotationConvensions.Kategori, int, AnnotationDbContext>
     {
-
+        public TestContext(AnnotationDbContext dbContext) : base(dbContext)
+        {
+        }
     }
 
     //public class EfDb :DbContext

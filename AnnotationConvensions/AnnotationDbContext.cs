@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Data.DataAccess.Repositories.Abstracts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace EntityFrameworkCoreApp.AnnotationConvensions
             modelBuilder.Entity<Kategori>().Property<DateTime?>("CreatedDate");
             modelBuilder.Entity<Kategori>().Property<DateTime?>("UpdatedDate");
 
+            modelBuilder.Entity<Kategori>().HasKey(p => new { p.Id, p.KisiId });
         }
     }
 
@@ -88,11 +90,12 @@ namespace EntityFrameworkCoreApp.AnnotationConvensions
 
     #region Many to Many Relation
 
+
     //Princible Table
     public class Kategori
     {
-        [Key]
         public int Id { get; set; }
+        public int KisiId { get; set; }
         public string Adi { get; set; }
         public string Soyadi { get; set; }
         public ICollection<Urun> Urunler { get; set; }//Opsiyonel
@@ -102,9 +105,9 @@ namespace EntityFrameworkCoreApp.AnnotationConvensions
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Kategori_Id")]
         public int Kategori_Id { get; set; }
         public int Urun_Id { get; set; }
-        [ForeignKey("Kategori_Id")]
         public Kategori Kategori { get; set; }
         [ForeignKey("Urun_Id")]
         public Urun Urun { get; set; }

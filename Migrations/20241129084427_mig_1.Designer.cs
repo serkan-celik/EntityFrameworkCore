@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkCoreApp.Migrations
 {
     [DbContext(typeof(AnnotationDbContext))]
-    [Migration("20241128124911_mig_1")]
+    [Migration("20241129084427_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -28,15 +28,24 @@ namespace EntityFrameworkCoreApp.Migrations
             modelBuilder.Entity("EntityFrameworkCoreApp.AnnotationConvensions.Kategori", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("KisiId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Adi")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Soyadi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id", "KisiId");
 
                     b.ToTable("Kategoriler");
                 });
@@ -49,6 +58,12 @@ namespace EntityFrameworkCoreApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("KategoriId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("KategoriKisiId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Kategori_Id")
                         .HasColumnType("int");
 
@@ -57,9 +72,9 @@ namespace EntityFrameworkCoreApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Kategori_Id");
-
                     b.HasIndex("Urun_Id");
+
+                    b.HasIndex("KategoriId", "KategoriKisiId");
 
                     b.ToTable("KategoriUrunleri");
                 });
@@ -176,32 +191,33 @@ namespace EntityFrameworkCoreApp.Migrations
 
             modelBuilder.Entity("KategoriUrun", b =>
                 {
-                    b.Property<int>("KategorilerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UrunlerId")
                         .HasColumnType("int");
 
-                    b.HasKey("KategorilerId", "UrunlerId");
+                    b.Property<int>("KategorilerId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UrunlerId");
+                    b.Property<int>("KategorilerKisiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UrunlerId", "KategorilerId", "KategorilerKisiId");
+
+                    b.HasIndex("KategorilerId", "KategorilerKisiId");
 
                     b.ToTable("KategoriUrun");
                 });
 
             modelBuilder.Entity("EntityFrameworkCoreApp.AnnotationConvensions.KategoriUrun", b =>
                 {
-                    b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Kategori", "Kategori")
-                        .WithMany()
-                        .HasForeignKey("Kategori_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Urun", "Urun")
                         .WithMany()
                         .HasForeignKey("Urun_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriId", "KategoriKisiId");
 
                     b.Navigation("Kategori");
 
@@ -240,15 +256,15 @@ namespace EntityFrameworkCoreApp.Migrations
 
             modelBuilder.Entity("KategoriUrun", b =>
                 {
-                    b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Kategori", null)
-                        .WithMany()
-                        .HasForeignKey("KategorilerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Urun", null)
                         .WithMany()
                         .HasForeignKey("UrunlerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityFrameworkCoreApp.AnnotationConvensions.Kategori", null)
+                        .WithMany()
+                        .HasForeignKey("KategorilerId", "KategorilerKisiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

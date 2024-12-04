@@ -34,9 +34,6 @@ namespace EntityFrameworkCore
             var saatSonu = tarih.GetEndOfHour();
             var haftaSonu = tarih.GetEndOfWeek();
 
-            DateTime? tarih2 = DateTime.Now;
-            var haftaSonu2 = tarih2.GetEndOfDate();
-
             Console.WriteLine("işlem başarılı");
         }
     }

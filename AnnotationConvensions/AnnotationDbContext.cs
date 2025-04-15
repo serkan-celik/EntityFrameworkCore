@@ -1,4 +1,4 @@
-﻿using Infrastructure.Data.DataAccess.Repositories.Abstracts;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;

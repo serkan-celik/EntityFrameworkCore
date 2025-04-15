@@ -1,12 +1,12 @@
 ﻿
 using EntityFrameworkCoreApp.AnnotationConvensions;
-using Infrastructure.Data.DataAccess.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Infrastructure.Extensions;
+using Infrastructure.Data.DataAccess.EntityFrameworkCore;
 
 namespace EntityFrameworkCore
 {
@@ -38,7 +38,7 @@ namespace EntityFrameworkCore
         }
     }
 
-    class TestContext : EntityFrameworkCoreRepository<EntityFrameworkCoreApp.AnnotationConvensions.Kategori, int, AnnotationDbContext>
+    class TestContext : EntityFrameworkCoreRepository<EntityFrameworkCoreApp.AnnotationConvensions.Kategori, AnnotationDbContext>
     {
         public TestContext(AnnotationDbContext dbContext) : base(dbContext)
         {

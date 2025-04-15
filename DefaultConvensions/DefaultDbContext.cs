@@ -52,7 +52,7 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
 
     public class Siparis
     {
-        //Auto PrimaryKey
+        //Id PrimaryKey auto geneterated
         public int Id { get; set; }
         public int KullaniciId { get; set; }
         public DateTime Tarih { get; set; }
@@ -61,7 +61,7 @@ namespace EntityFrameworkCoreApp.DefaultConvensions
     }
     public class SiparisDetay
     {
-        //Id AutoKey
+        //Id PrimaryKey auto geneterated
         public int Id { get; set; }
         //Shadow property automatic geneterated
         //public int SiparisId { get; set; }

@@ -34,4 +34,10 @@
     <Folder Include="FluentConvensions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Infrastructure">
+      <HintPath>..\Infrastructure\bin\Debug\netstandard2.0\Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
